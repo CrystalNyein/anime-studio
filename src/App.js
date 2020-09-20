@@ -34,6 +34,7 @@ function App() {
     fetchAnimeList("upcoming");
     setTimeout(() => fetchAnimeList("bypopularity"), 4100);
     setTimeout(() => fetchAnimeList("favorite"), 8200);
+    console.log(animeLists);
   }, []);
   return (
     <AnimeContext.Provider value={animeLists}>
