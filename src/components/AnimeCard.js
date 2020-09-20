@@ -34,13 +34,13 @@ const AnimeCard = ({ anime }) => {
           <Typography variant="body2" color="textSecondary" component="p">
             {anime["type"]}
           </Typography>
-          <Typography variant="body2" component="p">
+          <Typography variant="body1" component="p">
             Aired On : {anime["start_date"]} - {anime["end_date"]}
           </Typography>
         </CardContent>
       </CardActionArea>
       <CardActions>
-        <Button variant="contained" size="small" color="primary">
+        <Button size="small" color="secondary">
           Learn More
         </Button>
       </CardActions>
