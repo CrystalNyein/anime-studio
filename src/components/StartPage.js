@@ -2,6 +2,7 @@ import { Grid, makeStyles, Paper, Typography } from "@material-ui/core";
 import React, { useContext } from "react";
 import { AnimeContext } from "../App";
 import AnimeCard from "./AnimeCard";
+import AsideAnimeCard from "./AsideAnimeCard";
 
 export const useStyles = makeStyles((theme) => ({
   pr3: {
@@ -35,7 +36,15 @@ const StartPage = () => {
             ))}
         </Grid>
         <Grid item sm={false} md={3}>
-          <Paper variant="outlined" className={classes.aside} />
+          <Paper variant="outlined" className={classes.aside}>
+            <Typography variant="h4" component="h4">
+              Upcoming Anime
+            </Typography>
+            {animeList["upcoming"] &&
+              animeList["upcoming"].map((anime) => (
+                <AsideAnimeCard anime={anime} />
+              ))}
+          </Paper>
         </Grid>
       </Grid>
     </div>
