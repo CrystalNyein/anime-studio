@@ -36,6 +36,7 @@ const StartPage = () => {
             ))}
         </Grid>
         <Grid item sm={false} md={3}>
+<<<<<<< HEAD
           <Paper variant="outlined" className={classes.aside}>
             <Typography variant="h4" component="h4">
               Upcoming Anime
@@ -45,6 +46,9 @@ const StartPage = () => {
                 <AsideAnimeCard anime={anime} />
               ))}
           </Paper>
+=======
+          <Paper variant="outlined" className={classes.aside} />
+>>>>>>> afae75f0c080103169bb952672431760db07ddd9
         </Grid>
       </Grid>
     </div>
