@@ -13,6 +13,8 @@ const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
     margin: theme.spacing(2),
+    justifyContent: "space-between",
+    alignItems: "center",
   },
   details: {
     display: "flex",
@@ -22,7 +24,9 @@ const useStyles = makeStyles((theme) => ({
     flex: "1 0 auto",
   },
   cover: {
-    width: 151,
+    minWidth: 100,
+    maxWidth: 100,
+    height: 135,
   },
 }));
 
@@ -32,7 +36,7 @@ const AsideAnimeCard = ({ anime }) => {
     <Card className={classes.root}>
       <div className={classes.details}>
         <CardContent className={classes.content}>
-          <Typography component="body1" variant="p">
+          <Typography component="p" variant="body1">
             {anime["title"]}
           </Typography>
           <Typography variant="subtitle1" color="textSecondary">

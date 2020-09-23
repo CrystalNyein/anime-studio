@@ -1,24 +1,37 @@
-import { Grid, makeStyles, Paper, Typography } from "@material-ui/core";
-import React, { useContext } from "react";
+import {
+  Grid,
+  makeStyles,
+  Paper,
+  Typography,
+  useTheme,
+} from "@material-ui/core";
+import React, { useContext, useState } from "react";
 import { AnimeContext } from "../App";
 import AnimeCard from "./AnimeCard";
 import AsideAnimeCard from "./AsideAnimeCard";
+import SwipeableViews from "react-swipeable-views";
+import { autoPlay } from "react-swipeable-views-utils";
+import AsideAnimeCardGroup from "./AsideAnimeCardGroup";
 
-export const useStyles = makeStyles((theme) => ({
+const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
+const useStyles = makeStyles((theme) => ({
   pr3: {
     paddingLeft: theme.spacing(3),
   },
   aside: {
     margin: theme.spacing(3),
-    height: "500px",
   },
 }));
 
 const StartPage = () => {
   const classes = useStyles();
+  const theme = useTheme();
   const animeList = useContext(AnimeContext);
+  const [activeStep, setActiveStep] = useState(0);
+  const handleStepChange = (step) => {
+    setActiveStep(step);
+  };
 
-  console.log("animeList:", animeList);
   return (
     <div>
       <Grid container spacing={2}>
@@ -40,10 +53,25 @@ const StartPage = () => {
             <Typography variant="h4" component="h4">
               Upcoming Anime
             </Typography>
-            {animeList["upcoming"] &&
-              animeList["upcoming"].map((anime) => (
-                <AsideAnimeCard anime={anime} />
+            <AutoPlaySwipeableViews
+              axis={theme.direction === "rtl" ? "x-reverse" : "x"}
+              index={activeStep}
+              onChangeIndex={handleStepChange}
+              enableMouseEvents
+            >
+              {[...Array(13)].map((e, i) => (
+                <div key={i}>
+                  {Math.abs(activeStep - i) <= 2 ? (
+                    <AsideAnimeCardGroup
+                      animeList={animeList["upcoming"].slice(
+                        i * 4,
+                        (i + 1) * 4
+                      )}
+                    />
+                  ) : null}
+                </div>
               ))}
+            </AutoPlaySwipeableViews>
           </Paper>
         </Grid>
       </Grid>
