@@ -1,7 +1,9 @@
 import {
   Grid,
+  IconButton,
   makeStyles,
   Paper,
+  rgbToHex,
   Typography,
   useTheme,
 } from "@material-ui/core";
@@ -12,6 +14,7 @@ import AsideAnimeCard from "./AsideAnimeCard";
 import SwipeableViews from "react-swipeable-views";
 import { autoPlay } from "react-swipeable-views-utils";
 import AsideAnimeCardGroup from "./AsideAnimeCardGroup";
+import { ChevronRightRounded, SportsRugbySharp } from "@material-ui/icons";
 
 const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
 const useStyles = makeStyles((theme) => ({
@@ -20,6 +23,18 @@ const useStyles = makeStyles((theme) => ({
   },
   aside: {
     margin: theme.spacing(3),
+  },
+  positionRelative: {
+    position: "relative",
+  },
+  btnPosition: {
+    position: "absolute",
+    top: 130,
+    right: -15,
+    backgroundColor: "#646464",
+  },
+  iconSize: {
+    fontSize: "2em",
   },
 }));
 
@@ -36,19 +51,31 @@ const StartPage = () => {
     <div>
       <Grid container spacing={2}>
         <Grid container item md={9}>
-          <Grid item md={12}>
+          <Grid item sm={12} md={12}>
             <Typography variant="h4" component="h4" className={classes.pr3}>
               Popular Anime
             </Typography>
           </Grid>
           {animeList["bypopularity"] &&
-            animeList["bypopularity"].map((anime) => (
-              <Grid item xs={12} sm={6} md={4} key={anime.mal_id}>
+            animeList["bypopularity"].slice(0, 6).map((anime, index) => (
+              <Grid
+                item
+                xs={12}
+                sm={6}
+                md={4}
+                key={anime.mal_id}
+                className={classes.positionRelative}
+              >
                 <AnimeCard anime={anime} />
+                {index === 5 && (
+                  <IconButton className={classes.btnPosition}>
+                    <ChevronRightRounded className={classes.iconSize} />
+                  </IconButton>
+                )}
               </Grid>
             ))}
         </Grid>
-        <Grid item sm={false} md={3}>
+        <Grid item xs={12} sm={6} md={3}>
           <Paper variant="outlined" className={classes.aside}>
             <Typography variant="h4" component="h4">
               Upcoming Anime
