@@ -1,9 +1,11 @@
 import Axios from "axios";
 import React, { useEffect, useState } from "react";
+import { Provider } from "react-redux";
 import "./App.css";
 import Loader from "./components/Loader";
 import NavBar from "./components/NavBar";
 import StartPage from "./components/StartPage";
+import store from "./redux/store";
 
 export const AnimeContext = React.createContext();
 
@@ -37,12 +39,14 @@ function App() {
     console.log(animeLists);
   }, []);
   return (
-    <AnimeContext.Provider value={animeLists}>
-      <div className="App">
-        <NavBar />
-        {isLoading ? <Loader /> : <StartPage />}
-      </div>
-    </AnimeContext.Provider>
+    <Provider store={store}>
+      <AnimeContext.Provider value={animeLists}>
+        <div className="App">
+          <NavBar />
+          {isLoading ? <Loader /> : <StartPage />}
+        </div>
+      </AnimeContext.Provider>
+    </Provider>
   );
 }
 
