@@ -1,8 +1,6 @@
-let nextUserId = 0;
-export const addUser = (username, password) => ({
-  type: "ADD_USER",
+export const loginUser = (username, password) => ({
+  type: "LOGIN_USER",
   payload: {
-    id: ++nextUserId,
     username,
     password,
   },
