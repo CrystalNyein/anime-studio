@@ -1,5 +1,6 @@
-import { makeStyles, Modal } from "@material-ui/core";
-import React from "react";
+import { Input, makeStyles, Modal } from "@material-ui/core";
+import React, { useContext } from "react";
+import { UserFormContext } from "../App";
 
 function rand() {
   return Math.round(Math.random() * 20) - 10;
@@ -27,7 +28,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const UserFormModal = ({ openUserForm, setOpenUserForm }) => {
+const UserFormModal = () => {
+  const { openUserForm, setOpenUserForm } = useContext(UserFormContext);
   const classes = useStyles();
   // getModalStyle is not a pure function, we roll the style only on the first render
   const [modalStyle] = React.useState(getModalStyle);
@@ -40,9 +42,13 @@ const UserFormModal = ({ openUserForm, setOpenUserForm }) => {
     >
       <div style={modalStyle} className={classes.paper}>
         <h2 id="simple-modal-title">Text in a modal</h2>
-        <p id="simple-modal-description">
-          Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-        </p>
+        <div id="simple-modal-description">
+          <p>
+            Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
+          </p>
+        </div>
+
+        <Input type="text"></Input>
       </div>
     </Modal>
   );

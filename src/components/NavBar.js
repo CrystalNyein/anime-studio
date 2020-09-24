@@ -7,7 +7,8 @@ import {
   Typography,
 } from "@material-ui/core";
 import { MenuRounded } from "@material-ui/icons";
-import React from "react";
+import React, { useContext } from "react";
+import { UserFormContext } from "../App";
 
 const useStyle = makeStyles((theme) => ({
   green: {
@@ -20,11 +21,14 @@ const useStyle = makeStyles((theme) => ({
 
 const NavBar = () => {
   const classes = useStyle();
+  const { setOpenUserForm } = useContext(UserFormContext);
   return (
     <AppBar position="static" className={classes.green}>
       <Toolbar className={classes.justifySpaceBetween}>
         <Typography variant="h6">Anime Studio</Typography>
-        <Button color="inherit">Login</Button>
+        <Button color="inherit" onClick={() => setOpenUserForm(true)}>
+          Login
+        </Button>
       </Toolbar>
     </AppBar>
   );
