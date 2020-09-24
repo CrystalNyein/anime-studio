@@ -7,7 +7,7 @@ import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
-import { addUser } from "../redux/actions";
+import { loginUser } from "../redux/actions";
 import { connect } from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
@@ -17,12 +17,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const AnimeCard = ({ anime, users, addUser }) => {
+const AnimeCard = ({ anime, users, loginUser, setOpenUserForm }) => {
   const handleLearnMore = () => {
     if (users) {
       console.log("user Logged in");
     } else {
-      console.log("user not logged in");
+      setOpenUserForm(true);
     }
   };
   const classes = useStyles();
@@ -57,7 +57,8 @@ const AnimeCard = ({ anime, users, addUser }) => {
   );
 };
 const mapStateToProps = (state) => {
-  const { users } = state;
-  return users;
+  console.log("usersStore", state);
+
+  return state;
 };
-export default connect(mapStateToProps, addUser)(AnimeCard);
+export default connect(mapStateToProps, loginUser)(AnimeCard);

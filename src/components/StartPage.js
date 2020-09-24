@@ -2,6 +2,7 @@ import {
   Grid,
   IconButton,
   makeStyles,
+  Modal,
   Paper,
   rgbToHex,
   Typography,
@@ -15,6 +16,7 @@ import SwipeableViews from "react-swipeable-views";
 import { autoPlay } from "react-swipeable-views-utils";
 import AsideAnimeCardGroup from "./AsideAnimeCardGroup";
 import { ChevronRightRounded, SportsRugbySharp } from "@material-ui/icons";
+import UserFormModal from "./UserFormModal";
 
 const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
 const useStyles = makeStyles((theme) => ({
@@ -43,6 +45,7 @@ const StartPage = () => {
   const theme = useTheme();
   const animeList = useContext(AnimeContext);
   const [activeStep, setActiveStep] = useState(0);
+  const [openUserForm, setOpenUserForm] = useState(false);
   const handleStepChange = (step) => {
     setActiveStep(step);
   };
@@ -66,7 +69,7 @@ const StartPage = () => {
                 key={anime.mal_id}
                 className={classes.positionRelative}
               >
-                <AnimeCard anime={anime} />
+                <AnimeCard anime={anime} setOpenUserForm={setOpenUserForm} />
                 {index === 5 && (
                   <IconButton className={classes.btnPosition}>
                     <ChevronRightRounded className={classes.iconSize} />
@@ -102,6 +105,10 @@ const StartPage = () => {
           </Paper>
         </Grid>
       </Grid>
+      <UserFormModal
+        openUserForm={openUserForm}
+        setOpenUserForm={setOpenUserForm}
+      />
     </div>
   );
 };
