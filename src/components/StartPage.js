@@ -9,7 +9,7 @@ import {
   useTheme,
 } from "@material-ui/core";
 import React, { useContext, useState } from "react";
-import { AnimeContext } from "../App";
+import { AnimeContext, LoaderContext } from "../App";
 import AnimeCard from "./AnimeCard";
 import AsideAnimeCard from "./AsideAnimeCard";
 import SwipeableViews from "react-swipeable-views";
@@ -17,6 +17,7 @@ import { autoPlay } from "react-swipeable-views-utils";
 import AsideAnimeCardGroup from "./AsideAnimeCardGroup";
 import { ChevronRightRounded } from "@material-ui/icons";
 import UserFormModal from "./UserFormModal";
+import Loader from "./Loader";
 
 const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
 const useStyles = makeStyles((theme) => ({
@@ -44,13 +45,16 @@ const StartPage = () => {
   const classes = useStyles();
   const theme = useTheme();
   const animeList = useContext(AnimeContext);
+  const isLoading = useContext(LoaderContext);
 
   const [activeStep, setActiveStep] = useState(0);
   const handleStepChange = (step) => {
     setActiveStep(step);
   };
 
-  return (
+  return isLoading ? (
+    <Loader />
+  ) : (
     <div>
       <Grid container spacing={2}>
         <Grid container item md={9}>

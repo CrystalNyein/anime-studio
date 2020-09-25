@@ -10,6 +10,7 @@ import Typography from "@material-ui/core/Typography";
 import { loginUser } from "../redux/actions";
 import { connect } from "react-redux";
 import { UserFormContext } from "../App";
+import { withRouter } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -18,11 +19,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const AnimeCard = ({ anime, username, loginUser }) => {
+const AnimeCard = ({ history, anime, username, loginUser }) => {
   const { setOpenUserForm } = useContext(UserFormContext);
   const handleLearnMore = () => {
     if (username) {
-      console.log("user Logged in");
+      history.push("/home");
     } else {
       setOpenUserForm(true);
     }
@@ -61,4 +62,4 @@ const AnimeCard = ({ anime, username, loginUser }) => {
 const mapStateToProps = (state) => {
   return state;
 };
-export default connect(mapStateToProps, loginUser)(AnimeCard);
+export default connect(mapStateToProps, loginUser)(withRouter(AnimeCard));

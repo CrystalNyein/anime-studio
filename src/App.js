@@ -1,5 +1,6 @@
 import Axios from "axios";
 import React, { useEffect, useState } from "react";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { Provider } from "react-redux";
 import "./App.css";
 import Loader from "./components/Loader";
@@ -8,6 +9,7 @@ import StartPage from "./components/StartPage";
 import store from "./redux/store";
 
 export const AnimeContext = React.createContext();
+export const LoaderContext = React.createContext();
 export const UserFormContext = React.createContext({
   openUserForm: false,
   setOpenUserForm: () => {},
@@ -47,10 +49,16 @@ function App() {
     <Provider store={store}>
       <AnimeContext.Provider value={animeLists}>
         <UserFormContext.Provider value={{ openUserForm, setOpenUserForm }}>
-          <div className="App">
-            <NavBar />
-            {isLoading ? <Loader /> : <StartPage />}
-          </div>
+          <LoaderContext.Provider value={isLoading}>
+            <div className="App">
+              <NavBar />
+              <Router>
+                <Switch>
+                  <Route exact path="/" component={StartPage} />
+                </Switch>
+              </Router>
+            </div>
+          </LoaderContext.Provider>
         </UserFormContext.Provider>
       </AnimeContext.Provider>
     </Provider>
