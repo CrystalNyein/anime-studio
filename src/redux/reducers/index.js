@@ -13,6 +13,9 @@ const users = (state = initialState, action) => {
         password,
       };
     }
+    case "LOGOUT_USER": {
+      return initialState;
+    }
     default:
       return { ...state };
   }
