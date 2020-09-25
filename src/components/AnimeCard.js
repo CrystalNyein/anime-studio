@@ -18,10 +18,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const AnimeCard = ({ anime, users, loginUser }) => {
+const AnimeCard = ({ anime, username, loginUser }) => {
   const { setOpenUserForm } = useContext(UserFormContext);
   const handleLearnMore = () => {
-    if (users) {
+    if (username) {
       console.log("user Logged in");
     } else {
       setOpenUserForm(true);
@@ -59,8 +59,6 @@ const AnimeCard = ({ anime, users, loginUser }) => {
   );
 };
 const mapStateToProps = (state) => {
-  console.log("usersStore", state);
-
   return state;
 };
 export default connect(mapStateToProps, loginUser)(AnimeCard);

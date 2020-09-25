@@ -40,13 +40,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const UserFormModal = ({ users, loginUser }) => {
+const UserFormModal = ({ loginUser }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const handleLoginForm = (e) => {
     e.preventDefault();
-    console.log("username:", username, " password:", password);
     loginUser(username, password);
+    setUsername("");
+    setPassword("");
     setOpenUserForm(false);
   };
   const { openUserForm, setOpenUserForm } = useContext(UserFormContext);
@@ -101,9 +102,4 @@ const UserFormModal = ({ users, loginUser }) => {
   );
 };
 
-const mapStateToProps = (state) => {
-  const { users } = state;
-  return users;
-};
-
-export default connect(mapStateToProps, { loginUser })(UserFormModal);
+export default connect(null, { loginUser })(UserFormModal);

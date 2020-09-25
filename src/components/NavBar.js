@@ -8,6 +8,7 @@ import {
 } from "@material-ui/core";
 import { MenuRounded } from "@material-ui/icons";
 import React, { useContext } from "react";
+import { connect } from "react-redux";
 import { UserFormContext } from "../App";
 
 const useStyle = makeStyles((theme) => ({
@@ -19,19 +20,25 @@ const useStyle = makeStyles((theme) => ({
   },
 }));
 
-const NavBar = () => {
+const NavBar = ({ username }) => {
   const classes = useStyle();
   const { setOpenUserForm } = useContext(UserFormContext);
   return (
     <AppBar position="static" className={classes.green}>
       <Toolbar className={classes.justifySpaceBetween}>
         <Typography variant="h6">Anime Studio</Typography>
-        <Button color="inherit" onClick={() => setOpenUserForm(true)}>
-          Login
-        </Button>
+        {username ? (
+          <p>Username</p>
+        ) : (
+          <Button color="inherit" onClick={() => setOpenUserForm(true)}>
+            Login
+          </Button>
+        )}
       </Toolbar>
     </AppBar>
   );
 };
-
-export default NavBar;
+const mapStateToProps = (state) => {
+  return state;
+};
+export default connect(mapStateToProps)(NavBar);
