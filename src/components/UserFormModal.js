@@ -1,6 +1,8 @@
-import { Input, makeStyles, Modal } from "@material-ui/core";
-import React, { useContext } from "react";
+import { Button, Input, makeStyles, Modal, TextField } from "@material-ui/core";
+import React, { useContext, useState } from "react";
+import { connect } from "react-redux";
 import { UserFormContext } from "../App";
+import { loginUser } from "../redux/actions";
 
 function rand() {
   return Math.round(Math.random() * 20) - 10;
@@ -18,9 +20,19 @@ function getModalStyle() {
 }
 
 const useStyles = makeStyles((theme) => ({
+  root: {
+    "& .MuiTextField-root": {
+      margin: theme.spacing(1),
+      width: "25ch",
+    },
+  },
+
+  submit: {
+    margin: theme.spacing(3, 0, 2),
+  },
   paper: {
     position: "absolute",
-    width: 400,
+    width: 350,
     backgroundColor: theme.palette.background.paper,
     border: "2px solid #000",
     boxShadow: theme.shadows[5],
@@ -28,7 +40,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const UserFormModal = () => {
+const UserFormModal = ({ users, loginUser }) => {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const handleLoginForm = (e) => {
+    e.preventDefault();
+    console.log("username:", username, " password:", password);
+    loginUser(username, password);
+    setOpenUserForm(false);
+  };
   const { openUserForm, setOpenUserForm } = useContext(UserFormContext);
   const classes = useStyles();
   // getModalStyle is not a pure function, we roll the style only on the first render
@@ -41,17 +61,49 @@ const UserFormModal = () => {
       aria-describedby="simple-modal-description"
     >
       <div style={modalStyle} className={classes.paper}>
-        <h2 id="simple-modal-title">Text in a modal</h2>
+        <h2 id="simple-modal-title">Login / Signup</h2>
         <div id="simple-modal-description">
-          <p>
-            Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-          </p>
+          <form
+            className={classes.root}
+            autoComplete="off"
+            onSubmit={handleLoginForm}
+          >
+            <TextField
+              required
+              id="username"
+              variant="outlined"
+              label="Username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+            />
+            <TextField
+              id="password-input"
+              label="Password"
+              required
+              type="password"
+              variant="outlined"
+              autoComplete="current-password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+            <Button
+              type="submit"
+              variant="contained"
+              color="primary"
+              className={classes.submit}
+            >
+              Sign Up
+            </Button>
+          </form>
         </div>
-
-        <Input type="text"></Input>
       </div>
     </Modal>
   );
 };
 
-export default UserFormModal;
+const mapStateToProps = (state) => {
+  const { users } = state;
+  return users;
+};
+
+export default connect(mapStateToProps, { loginUser })(UserFormModal);
