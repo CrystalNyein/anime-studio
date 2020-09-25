@@ -1,5 +1,6 @@
 import {
   AppBar,
+  Avatar,
   Button,
   IconButton,
   makeStyles,
@@ -10,25 +11,40 @@ import { MenuRounded } from "@material-ui/icons";
 import React, { useContext } from "react";
 import { connect } from "react-redux";
 import { UserFormContext } from "../App";
+import { getInitials } from "../utils";
+import { logoutUser } from "../redux/actions";
 
 const useStyle = makeStyles((theme) => ({
   green: {
     backgroundColor: "#16b920",
   },
-  justifySpaceBetween: {
-    justifyContent: "space-between",
+  flexgrow: {
+    flex: 1,
+  },
+  textUpper: {
+    textTransform: "uppercase",
   },
 }));
 
-const NavBar = ({ username }) => {
+const NavBar = ({ username, logoutUser }) => {
+  // console.log("Username with initials", getInitials(username));
   const classes = useStyle();
   const { setOpenUserForm } = useContext(UserFormContext);
   return (
     <AppBar position="static" className={classes.green}>
-      <Toolbar className={classes.justifySpaceBetween}>
-        <Typography variant="h6">Anime Studio</Typography>
+      <Toolbar>
+        <Typography className={classes.flexgrow} variant="h6">
+          Anime Studio
+        </Typography>
+        {username && (
+          <Avatar className={classes.textUpper} color="secondary">
+            {getInitials(username)}
+          </Avatar>
+        )}
         {username ? (
-          <p>Username</p>
+          <Button color="inherit" onClick={logoutUser}>
+            Logout
+          </Button>
         ) : (
           <Button color="inherit" onClick={() => setOpenUserForm(true)}>
             Login
@@ -41,4 +57,4 @@ const NavBar = ({ username }) => {
 const mapStateToProps = (state) => {
   return state;
 };
-export default connect(mapStateToProps)(NavBar);
+export default connect(mapStateToProps, { logoutUser })(NavBar);
