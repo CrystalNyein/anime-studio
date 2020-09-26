@@ -22,11 +22,10 @@ const useStyles = makeStyles((theme) => ({
 const AnimeCard = ({ history, anime, username, loginUser }) => {
   const { setOpenUserForm } = useContext(UserFormContext);
   const handleLearnMore = () => {
-    if (username) {
-      history.push("/home");
-    } else {
+    if (!username) {
       setOpenUserForm(true);
     }
+    history.push("/anime/" + anime["mal_id"]);
   };
   const classes = useStyles();
   return (

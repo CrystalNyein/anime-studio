@@ -7,6 +7,7 @@ import Loader from "./components/Loader";
 import NavBar from "./components/NavBar";
 import StartPage from "./components/StartPage";
 import store from "./redux/store";
+import DetailPage from "./components/DetailPage";
 
 export const AnimeContext = React.createContext();
 export const LoaderContext = React.createContext();
@@ -55,6 +56,7 @@ function App() {
               <Router>
                 <Switch>
                   <Route exact path="/" component={StartPage} />
+                  <Route exact path="/anime/:id" component={DetailPage} />
                 </Switch>
               </Router>
             </div>
