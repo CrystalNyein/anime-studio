@@ -10,13 +10,15 @@ import store from "./redux/store";
 import DetailPage from "./components/DetailPage";
 
 export const AnimeContext = React.createContext();
-export const LoaderContext = React.createContext();
+export const LoaderContext = React.createContext({
+  isLoading: false,
+  setIsLoading: () => {},
+});
 export const UserFormContext = React.createContext({
   openUserForm: false,
   setOpenUserForm: () => {},
 });
-
-function App() {
+Axios.defaults.baseURL = function App() {
   const initialAnimeLists = {
     upcoming: [],
     bypopularity: [],
@@ -50,7 +52,7 @@ function App() {
     <Provider store={store}>
       <AnimeContext.Provider value={animeLists}>
         <UserFormContext.Provider value={{ openUserForm, setOpenUserForm }}>
-          <LoaderContext.Provider value={isLoading}>
+          <LoaderContext.Provider value={{ isLoading, setIsLoading }}>
             <div className="App">
               <NavBar />
               <Router>
@@ -65,6 +67,6 @@ function App() {
       </AnimeContext.Provider>
     </Provider>
   );
-}
+};
 
 export default App;
