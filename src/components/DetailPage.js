@@ -1,17 +1,36 @@
 import Axios from "axios";
-import React, { useEffect } from "react";
+import React, { useEffect, useState, useContext } from "react";
+import { LoaderContext } from "../App";
+import Loader from "./Loader";
 
-function DetailPage({ match }) {
-  const api = process.env.REACT_APP_API_ENDPOINT;
+const DetailPage = ({ match }) => {
+  const { isLoading, setIsLoading } = useContext(LoaderContext);
+
+  const [anime, setAnime] = useState({});
   const fetchAnime = () => {
-    Axios.get(`${api}anime/${match.params.id}`).then((res) =>
-      console.log(res.data)
-    );
+    setIsLoading(true);
+    Axios.get(`anime/${match.params.id}`)
+      .then((res) => {
+        console.log(res.data);
+        setAnime(res.data);
+        setIsLoading(false);
+      })
+      .catch((err) => {
+        console.log(err);
+        setAnime({});
+        setIsLoading(false);
+      });
   };
   useEffect(() => {
     fetchAnime();
   }, []);
-  return <div>Detail Page {match.params.id}</div>;
-}
+  return isLoading ? (
+    <Loader />
+  ) : (
+    <div>
+      <h1>Detail</h1>
+    </div>
+  );
+};
 
 export default DetailPage;

@@ -18,13 +18,12 @@ export const UserFormContext = React.createContext({
   openUserForm: false,
   setOpenUserForm: () => {},
 });
-Axios.defaults.baseURL = function App() {
+function App() {
   const initialAnimeLists = {
     upcoming: [],
     bypopularity: [],
     favorite: [],
   };
-  const api = process.env.REACT_APP_API_ENDPOINT;
   const [isLoading, setIsLoading] = useState(false);
   const [animeLists, setAnimeLists] = useState(initialAnimeLists);
   const [openUserForm, setOpenUserForm] = useState(false);
@@ -33,7 +32,7 @@ Axios.defaults.baseURL = function App() {
     const fetchAnimeList = async (param) => {
       setIsLoading(true);
       try {
-        const res = await Axios.get(`${api}top/anime/1/${param}`);
+        const res = await Axios.get(`top/anime/1/${param}`);
         setAnimeLists((prevState) => {
           prevState[param] = res.data.top;
           return prevState;
@@ -67,6 +66,6 @@ Axios.defaults.baseURL = function App() {
       </AnimeContext.Provider>
     </Provider>
   );
-};
+}
 
 export default App;
