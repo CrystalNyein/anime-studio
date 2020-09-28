@@ -45,7 +45,7 @@ const StartPage = () => {
   const classes = useStyles();
   const theme = useTheme();
   const animeList = useContext(AnimeContext);
-  const isLoading = useContext(LoaderContext);
+  const { isLoading } = useContext(LoaderContext);
 
   const [activeStep, setActiveStep] = useState(0);
   const handleStepChange = (step) => {
