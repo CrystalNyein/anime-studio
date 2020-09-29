@@ -8,7 +8,7 @@ import {
   Typography,
   useTheme,
 } from "@material-ui/core";
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { AnimeContext, LoaderContext } from "../App";
 import AnimeCard from "./AnimeCard";
 import AsideAnimeCard from "./AsideAnimeCard";
@@ -18,6 +18,7 @@ import AsideAnimeCardGroup from "./AsideAnimeCardGroup";
 import { ChevronRightRounded } from "@material-ui/icons";
 import UserFormModal from "./UserFormModal";
 import Loader from "./Loader";
+import Axios from "axios";
 
 const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
 const useStyles = makeStyles((theme) => ({
@@ -41,13 +42,40 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const initialAnimeList = {
+  upcoming: [],
+  bypopularity: [],
+  favorite: [],
+};
+
 const StartPage = () => {
   const classes = useStyles();
   const theme = useTheme();
-  const animeList = useContext(AnimeContext);
-  const { isLoading } = useContext(LoaderContext);
+  const { isLoading, setIsLoading } = useContext(LoaderContext);
 
+  const [animeList, setAnimeList] = useState(initialAnimeList);
   const [activeStep, setActiveStep] = useState(0);
+
+  useEffect(() => {
+    const fetchAnimeList = async (param) => {
+      setIsLoading(true);
+      try {
+        const res = await Axios.get(`top/anime/1/${param}`);
+        setAnimeList((prevState) => {
+          prevState[param] = res.data.top;
+          return prevState;
+        });
+        param === "favorite" && setIsLoading(false);
+      } catch (err) {
+        setIsLoading(false);
+        setAnimeList(initialAnimeList);
+      }
+    };
+    fetchAnimeList("upcoming");
+    setTimeout(() => fetchAnimeList("bypopularity"), 4100);
+    setTimeout(() => fetchAnimeList("favorite"), 8200);
+  }, []);
+
   const handleStepChange = (step) => {
     setActiveStep(step);
   };
