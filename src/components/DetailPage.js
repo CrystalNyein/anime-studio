@@ -2,6 +2,7 @@ import { Button, Grid, Typography } from "@material-ui/core";
 import Axios from "axios";
 import React, { useEffect, useState, useContext } from "react";
 import { LoaderContext } from "../App";
+import { removeWritten } from "../utils";
 import Loader from "./Loader";
 
 const DetailPage = ({ match }) => {
@@ -60,7 +61,7 @@ const DetailPage = ({ match }) => {
         <Button>{anime["favorite"]}</Button>
         <br />
         <Typography variant="body1" component="p">
-          {anime["synopsis"]}
+          {anime["synopsis"] && removeWritten(anime["synopsis"])}
         </Typography>
       </Grid>
       <Grid item md={1} />

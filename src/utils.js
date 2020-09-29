@@ -7,3 +7,7 @@ export const getInitials = (name) => {
     return nameArr[0][0] + nameArr[0][1];
   }
 };
+
+export const removeWritten = (desc) => {
+  return desc.split("[W")[0];
+};
