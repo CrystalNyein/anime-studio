@@ -1,14 +1,16 @@
-import { Button, Grid, Typography } from "@material-ui/core";
+import { Button, Grid, IconButton, Typography } from "@material-ui/core";
+import { ArrowBackIosRounded } from "@material-ui/icons";
 import Axios from "axios";
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState, useContext, useHistory } from "react";
 import { LoaderContext } from "../App";
 import { removeWritten } from "../utils";
 import Loader from "./Loader";
 
 const DetailPage = ({ match }) => {
   const { isLoading, setIsLoading } = useContext(LoaderContext);
-
+  const history = useHistory();
   const [anime, setAnime] = useState({});
+
   const fetchAnime = () => {
     setIsLoading(true);
     Axios.get(`anime/${match.params.id}`)
@@ -26,10 +28,19 @@ const DetailPage = ({ match }) => {
   useEffect(() => {
     fetchAnime();
   }, []);
+
+  const backHomePage = () => {
+    history.push("/");
+  };
   return isLoading ? (
     <Loader />
   ) : (
     <Grid container spacing={3}>
+      <Grid item md={12}>
+        <IconButton onClick={backHomePage}>
+          <ArrowBackIosRounded />
+        </IconButton>
+      </Grid>
       <Grid item md={1} />
       <Grid item md={3}>
         <img
