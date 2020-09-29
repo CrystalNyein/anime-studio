@@ -1,14 +1,15 @@
 import { Button, Grid, IconButton, Typography } from "@material-ui/core";
 import { ArrowBackIosRounded } from "@material-ui/icons";
 import Axios from "axios";
-import React, { useEffect, useState, useContext, useHistory } from "react";
+import React, { useEffect, useState, useContext } from "react";
+import { Link, withRouter } from "react-router-dom";
 import { LoaderContext } from "../App";
 import { removeWritten } from "../utils";
 import Loader from "./Loader";
 
-const DetailPage = ({ match }) => {
+const DetailPage = ({ history, match }) => {
   const { isLoading, setIsLoading } = useContext(LoaderContext);
-  const history = useHistory();
+
   const [anime, setAnime] = useState({});
 
   const fetchAnime = () => {
@@ -80,4 +81,4 @@ const DetailPage = ({ match }) => {
   );
 };
 
-export default DetailPage;
+export default withRouter(DetailPage);

@@ -9,6 +9,10 @@ import StartPage from "./components/StartPage";
 import store from "./redux/store";
 import DetailPage from "./components/DetailPage";
 
+export const AnimeContext = React.createContext({
+  animeList: {},
+  setAnimeList: () => {},
+});
 export const LoaderContext = React.createContext({
   isLoading: false,
   setIsLoading: () => {},
@@ -18,6 +22,12 @@ export const UserFormContext = React.createContext({
   setOpenUserForm: () => {},
 });
 function App() {
+  const initialAnimeList = {
+    upcoming: [],
+    bypopularity: [],
+    favorite: [],
+  };
+  const [animeList, setAnimeList] = useState(initialAnimeList);
   const [isLoading, setIsLoading] = useState(false);
   const [openUserForm, setOpenUserForm] = useState(false);
 
@@ -27,12 +37,16 @@ function App() {
         <NavBar />
         <Router>
           <Switch>
-            <UserFormContext.Provider value={{ openUserForm, setOpenUserForm }}>
-              <LoaderContext.Provider value={{ isLoading, setIsLoading }}>
-                <Route exact path="/" component={StartPage} />
-                <Route exact path="/anime/:id" component={DetailPage} />
-              </LoaderContext.Provider>
-            </UserFormContext.Provider>
+            <AnimeContext.Provider value={{ animeList, setAnimeList }}>
+              <UserFormContext.Provider
+                value={{ openUserForm, setOpenUserForm }}
+              >
+                <LoaderContext.Provider value={{ isLoading, setIsLoading }}>
+                  <Route exact path="/" component={StartPage} />
+                  <Route exact path="/anime/:id" component={DetailPage} />
+                </LoaderContext.Provider>
+              </UserFormContext.Provider>
+            </AnimeContext.Provider>
           </Switch>
         </Router>
       </Provider>

@@ -42,18 +42,16 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const initialAnimeList = {
-  upcoming: [],
-  bypopularity: [],
-  favorite: [],
-};
-
 const StartPage = () => {
   const classes = useStyles();
   const theme = useTheme();
+  const initialAnimeList = {
+    upcoming: [],
+    bypopularity: [],
+    favorite: [],
+  };
   const { isLoading, setIsLoading } = useContext(LoaderContext);
-
-  const [animeList, setAnimeList] = useState(initialAnimeList);
+  const { animeList, setAnimeList } = useContext(AnimeContext);
   const [activeStep, setActiveStep] = useState(0);
 
   useEffect(() => {
@@ -71,9 +69,11 @@ const StartPage = () => {
         setAnimeList(initialAnimeList);
       }
     };
-    fetchAnimeList("upcoming");
-    setTimeout(() => fetchAnimeList("bypopularity"), 4100);
-    setTimeout(() => fetchAnimeList("favorite"), 8200);
+    if (animeList["bypopularity"].length === 0) {
+      fetchAnimeList("upcoming");
+      setTimeout(() => fetchAnimeList("bypopularity"), 4100);
+      setTimeout(() => fetchAnimeList("favorite"), 8200);
+    }
   }, []);
 
   const handleStepChange = (step) => {
